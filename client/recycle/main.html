@@ -1,0 +1,595 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>法务管理系统</title>
+	
+	<link rel="shortcut icon" href="./favicon.ico"/>
+	<link rel="stylesheet" href="./css/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" href="./css/fontawesome.min.css" />
+	<link rel="stylesheet" href="./css/ystep.css"/>
+	<link rel="stylesheet" href="./css/popup.css"/>
+	<link rel="stylesheet" href="./css/form.css" />
+	<script src="./js/jquery.js"></script>
+<script src="./js/jquery.mobile-1.4.5.min.js"></script>
+
+<script src="./js/jquery.table.hpaging.min.js"></script>
+
+<script type="text/javascript" src="./configs.js"></script>
+<script type="text/javascript" src="./resourceData.js"></script>
+
+<script type="text/javascript" src="./js/db.js"></script>
+
+<link rel="stylesheet" href="./css/stepButton.css" />
+<link rel="stylesheet" href="./css/transitions.css"/>
+<script type="text/javascript" src="./js/progressButton.js"></script>
+<script type="text/javascript" src="./js/progressesButton.js"></script>
+
+<script type="text/javascript" src="./fakeData.js"></script>
+	<style>
+		
+		input[readonly]{
+			cursor: default;
+			-moz-box-shadow: none !important;
+			-webkit-box-shadow: none !important;
+			box-shadow: none !important;
+			background: none;
+			border: none;
+			/* 重点是 outline: none;  */
+			outline: none;
+			padding:5px 6.5px;
+		}
+		input[readonly].ui-input-text {
+  -webkit-box-shadow: 0 0 0 2px #ccc; /* Replace with the desired color */
+  box-shadow: 0 0 0 2px #ccc; /* Replace with the desired color */
+}
+		textarea:read-only{
+			cursor: default;
+			-moz-box-shadow: none !important;
+			-webkit-box-shadow: none !important;
+			box-shadow: none !important;
+			background: none;
+			border: none;
+			/* 重点是 outline: none;  */
+			outline: none;
+		}
+		#frame{
+			text-shadow: none;
+		}
+        .filtertable1{
+			width: calc(100% - 10px);
+            margin-left: 10px;
+        }
+		#all_remove_buts{
+			top:115px;
+            left:10px;
+			position: absolute;
+		}
+		.filtertable{
+			top:73px;
+            left:10px;
+			position: absolute;
+			width: calc(100% - 15px);
+			z-index: 89;
+		}
+		.header{
+			background: #262626;
+			color:white;
+			align-content: center;
+			text-align: center;
+			text-shadow: none;
+            
+            border: 0px solid #000000;
+		}
+        .main-title{
+            font-size: 30px;
+            margin-left:20px;
+            text-align: left;
+            vertical-align: middle;
+            line-height: 70px;
+        }
+		#right{
+			margin:0;
+			display: grid;
+			grid-template-rows: 100px auto;
+			height: 100vh;
+            row-gap: 0px;
+		}
+		#topright{
+			margin:0;
+			vertical-align: middle;
+			padding: 20px;
+		}
+        .container{
+            border: 0px solid #000000;
+            padding: 0px;
+            margin:0px;
+            height:100%;
+        }
+        .navbar{
+            border: 0px solid #000000;
+            background: #262626;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .nav-but{
+            height:50px;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 20px;
+        }
+        .nav-but::after {
+            background-size: 20px !important;
+            border-radius: 16px;
+            width: 32px !important;
+            height: 32px !important;
+            margin-bottom: 10px;
+            margin-left: 20px;
+            margin-top: -15px;
+        }
+        #name::after {
+            background-size: 20px !important;
+            width: 32px !important;
+            height: 32px !important;
+            margin-bottom: 10px;
+            
+            margin-top: -15px;
+        }
+		#main{
+			
+			padding: 0px 20px;
+		}
+		#name{
+			text-align: right;
+			margin-right: 20px;
+			margin-top: 8px;
+            width: 80px;
+            font-size: 16px;
+		}
+		#name_outter{
+			display: grid;
+  			grid-template-columns: 2fr auto;
+			height:100px;
+			background: #262626;
+			color:white;
+			line-height: 100px;
+			margin: 0;
+			padding: 0;
+			vertical-align: middle;
+		}
+        #page2{
+            padding: 20px 0px;
+        }
+		#photo{
+			margin: 0px 20px 0px 0px;
+			padding: 0;
+			vertical-align: middle;
+
+		}
+		#name_outter div{
+			display: inline-block;
+			text-align: right;
+			
+		}
+		#title{
+			text-align: center;
+			vertical-align: middle;
+		}
+		.noMargin{
+			margin:0px;
+		}
+        #table1 tbody tr td{
+            text-align: center;
+            vertical-align: middle;
+        }
+        #table1 thead tr th{
+            text-align: center;
+            vertical-align: middle;
+        }
+        .noMarrgin { 
+            margin: 0;
+            padding: 0;
+         }
+        .pagination { display: block;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto; 
+        }
+
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+
+        .pagination a.active {
+            background-color: #1362B7;
+            color: white;
+        }
+
+        .pagination a:hover:not(.active) { background-color: #ddd; }
+		.selected:after {
+			color: green;
+		}
+		.selected{
+			text-shadow: none;
+			color:white;
+			background:#1362B7
+		}
+		li a{
+			text-shadow: none;
+			color:bisque
+		}
+		.hide{
+			display: none;
+		}
+		#table_with_fn{
+			display:grid;
+			grid-template-columns: 2fr auto ;
+			grid-gap: 10px;
+		}
+		.option-mark{
+			color: #C31825;
+		}
+		.btn-icon-green:after{
+			background-color: green;
+		}
+		.btn-icon-red:after{
+			background-color: #C31825;
+		}
+		.btn-icon-blue:after{
+			background-color: #1362B7;
+		}
+		#add_case{
+			min-width: 800px;
+		}
+		.ui-grid-2{
+			display: grid;
+			grid-template-columns: 50% 50%;
+			grid-gap: 20px;
+			padding:20px;
+		}
+		.ui-grid-sub2{
+			display: grid;
+			grid-template-columns: auto 1fr;
+			grid-gap: 0px;
+			vertical-align: middle;
+			text-align: center;
+			line-height: 50px;
+		}
+		.ui-grid-sub2-textarea{
+			display: grid;
+			grid-template-columns: auto 1fr;
+			grid-gap: 0px;
+			vertical-align: middle;
+			text-align: center;
+			line-height: 50px;
+		}
+		.ui-grid-sub2-textarea label{
+			min-width: 120px;
+			text-align: left;
+			vertical-align: top;
+		}
+		.ui-grid-sub2 label{
+			min-width: 120px;
+			text-align: left;
+		}
+		.ui-grid-sub2 fieldset{
+			text-align: left;
+		}
+		.ui-grid-sub3{
+			display: grid;
+			grid-template-columns: auto auto 1fr;
+			grid-gap: 10px;
+			vertical-align: middle;
+			text-align: center;
+			line-height: 50px;
+			grid-column: span 2;
+		}
+		.error-input::after{
+			border:1px solid #C31825
+		}
+		.text-center{
+			position: relative;
+			text-align: center;
+			vertical-align: middle;
+			width:12%;
+			padding:0;
+		}
+		.text-center div{
+			position: absolute;
+			top:50%;
+			left:50%;
+			transform:translate(-50%,-50%);
+			text-align: center;
+			padding:0;
+		}
+		.table-row{
+			text-shadow: none;
+		}
+		#table1{
+			padding-top: 200px;
+			margin: 0px 10px;
+		}
+		#table2{
+			margin: 0px 10px;
+			text-shadow: none;
+		}
+		#table2 td{
+			
+			padding: 5px;
+		}
+		.progress_but_container{
+			text-align: center;
+		}
+		.custom-border-radius .ui-btn-icon-notext.ui-corner-all {
+			-webkit-border-radius: .3125em;
+			border-radius: .3125em;
+		}
+		#process_update_list td{
+			text-align: center;
+			vertical-align: top;
+		}
+		#process_update_upload_list{
+			width: calc(100% - 0px);
+			display: table;
+			white-space: nowrap;
+		}
+		#progress_status_details{
+			min-width: 250px;
+		}
+		/*
+		textarea.ui-input-text {
+			min-height: 40px;  
+			}
+			*/
+		.progress_lock{
+			position: absolute;
+			top:30px;
+			right:30px;
+			z-index: 99;
+			text-align: right;
+		}
+		
+		.ui-but-lock:after{
+			background-size: 20px !important;
+            border-radius: 16px;
+            width: 32px !important;
+            height: 32px !important;
+			left:9px;
+			top:8px;
+		}
+		.ui-but-lock-edit:after{
+			background-size: 20px !important;
+            border-radius: 16px;
+            width: 32px !important;
+            height: 32px !important;
+			left:9px;
+			top:8px;
+		}
+		.ui-select .multiSelect{
+			width:200px;
+			}
+			.ui-selectmenu.ui-popup .ui-input-search {
+				margin-left: .5em;
+				margin-right: .5em;
+			}
+			.ui-selectmenu.ui-dialog .ui-content {
+				padding-top: 0;
+			}
+			.ui-selectmenu.ui-dialog .ui-selectmenu-list {
+				margin-top: 0;
+			}
+			.ui-selectmenu.ui-popup .ui-selectmenu-list li.ui-first-child .ui-btn {
+				border-top-width: 1px;
+				-webkit-border-radius: 0;
+				border-radius: 0;
+			}
+			.ui-selectmenu.ui-dialog .ui-header {
+				border-bottom-width: 1px;
+			}
+			#progress_status_container div.outter{
+				top:21%;
+				bottom: 79%;
+				
+				transform:translate(-50%,-50%);
+				position: absolute;
+			}
+	</style>
+</head>
+	
+
+<body>
+    <!--#region 主体弹出窗口  -->
+	<!--
+    <div data-role="header" data-theme="a" style="border-radius: .3125em .3125em 0 0;" data-position="fixed">
+		<a href="#" class="ui-btn-right ui-btn ui-btn-a ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check btn-icon-green">保存</a>
+		<h1 id="reg_form_title"></h1>
+		<div data-role="controlgroup" data-type="horizontal" class="ui-corner-all  ui-mini ui-btn-left" >
+			<a href="#" class="ui-btn ui-btn-icon-left ui-btn-a ui-icon-delete btn-icon-red">取消</a>
+			<a href="#" class="ui-btn ui-btn-icon-right ui-btn-icon-notext ui-icon-lock ui-btn-a btn-icon-green">锁</a>
+		</div>
+			
+	</div>
+	-->
+    <div class="popup-background popup-a popup-hide"></div>
+    <div id="popup_progress_main" class="popup-main popup-hide">
+        
+        <h3 id="popup_progress_title"></h3>
+        <div class="progress_popup">
+            <div id="progress_status_details">test
+            </div>
+            <div id="progress_status_container"></div>
+			<div class="progress_lock">
+				<div class="ui-input-btn ui-btn ui-icon-lock ui-btn-icon-notext ui-corner-all ui-shadow btn-icon-red ui-but-lock">
+					<input type="button" data-enhanced="true" value="Enhanced - Icon only">
+				  </div>
+			  </div>
+        </div>
+        <fieldset class="ui-grid-a popup_status_buts">
+            <div class="ui-block-a"><a id="process_save_but" href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-check popup_status_but">提交</a></div>
+            <div class="ui-block-b"><a id="process_quit_cancel" href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-icon-back popup_status_but">取消</a></div>
+        </fieldset>
+    </div>
+    <div id="add_case_popup" class="popup-main popup-hide" >
+		
+		<div style="padding:10px 20px;" id="popup_form_main"></div>
+	</div>
+	<div id="add_case_popup_fullscreen" class="popup-main popup-hide" >
+		<div data-role="header" data-theme="b" style="border-radius: .3125em .3125em 0 0;">
+			<a href="#" class="ui-btn-right ui-btn ui-btn-a ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check btn-icon-green">保存</a>
+			<h1 id="reg_form_title"></h1>
+			<div data-role="controlgroup" data-type="horizontal" class="ui-corner-all  ui-mini ui-btn-left" >
+				<a href="#" class="ui-btn ui-btn-icon-left ui-btn-a ui-icon-delete btn-icon-red">取消</a>
+				<a href="#" class="ui-btn ui-btn-icon-right ui-btn-icon-notext ui-icon-lock ui-btn-a btn-icon-green">锁</a>
+			</div>
+				
+		</div>
+		<div style="padding:10px 20px;" id="popup_form_main_fullscreen"></div>
+	</div>
+	<div id="message_popup" class="popup-message popup-hide" ><h4 id="message_title"></h4><div class="message_content"></div>
+	</div>
+    <!--#endregion -->
+    <div class="popup-background popup-b popup-hide"></div>
+	<div class="popup-background popup-c popup-hide"></div>
+	<div id="frame" class="hide">
+        <!--#region 页面头部  -->
+		<div data-role="header" style="overflow:hidden;background: #262626;color:white;text-shadow: none;height:70px;" class="header">
+            <div class="main-title">国瑞法务管理系统</div>
+            <a id="name" href="#popupMenu" data-rel="popup" data-transition="slideup" data-icon="user" class="ui-btn-right">N/A</a>
+            <div data-role="popup" id="popupMenu" data-theme="b" data-history="false">
+                <ul data-role="listview" data-inset="true" style="min-width:210px;">
+                    <li data-role="list-divider"></li>
+                    <li style="margin:0;padding:0px;"><button class="ui-btn ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power noMargin" onclick='location.href=("index.html")'>退出</button></li>
+                </ul>
+            </div>
+        </div>
+        <!--#endregion -->
+        <!--#region 页面主体  -->
+        <div data-role="tabs" class="container">
+            <!--#region 菜单  -->
+            <div data-role="navbar" class="navbar">
+                <ul>
+                    <li><a href="#page1" class="ui-btn-active ui-btn ui-icon-bullets ui-btn-icon-left nav-but" data-ajax="false" data-theme="a"><h2>案件登记查询</h2></a></li>
+                    <li><a href="#page2" class="ui-btn ui-icon-star ui-btn-icon-left nav-but" data-ajax="false" data-theme="a"><h2>案件进展执行</h2></a></li>
+                    <li><a href="#page3" class="ui-btn ui-icon-gear ui-btn-icon-left nav-but" data-ajax="false" data-theme="a"><h2>设置</h2></a></li>
+                </ul>
+            </div>
+            <!--#endregion -->
+            <!--#region 案件登记查询页面  -->
+            <div id="page1">
+                <div id="table_with_fn">
+                    <form class="ui-filterable filtertable1">
+                        <input id="filterBasic-input" placeholder="搜索关键字" data-type="search">
+                    </form>
+                </div>
+                <!--#region 登记删除按钮  -->
+                <div data-role="controlgroup" data-type="horizontal" id="all_remove_buts">
+                    <a href="#" id="add_case_but" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-left btn-icon-green">新增</a>
+                    <!--#region 登记案件弹窗  -->
+                    
+                    <!--#endregion -->
+                    <a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-left btn-icon-red">删除</a>
+                </div>
+                <!--#endregion -->
+                <!--#region 案件登记查询主表  -->
+                <div>
+                    <table id="table1" data-mode="columntoggle" class="ui-responsive table-stroke" data-role="table" data-column-btn-text="列" data-filter="true" data-input="#filterBasic-input">
+                    </table>
+                </div>
+                <!--#endregion -->
+	        </div>
+            <!--#endregion -->
+            <!--#region 案件进展执行页面  -->
+            <div id="page2">
+                <form class="ui-filterable filtertable">
+                    <input id="filterBasic-input2" placeholder="搜索关键字" data-type="search">
+                </form>
+                <table id="table2" data-mode="columntoggle" class="ui-responsive table-stroke" data-column-btn-text="" data-role="table" data-filter="true" data-input="#filterBasic-input2">
+                    
+                </table>
+                <!--#region 进展执行明细弹窗  -->
+                <div data-role="popup" id="popupBasic" data-history="false" data-transition="pop" data-dismissible="false">
+					<div style="display:grid;grid-template-columns: 1fr auto;">
+						
+								<h3 id="process_updates_title" style="padding:0px;">
+								</h3>
+								
+
+								<div id="process_updates_courtDate" class="hide">
+								<div  style="display:grid;grid-template-columns: auto auto;">
+									<label for="courtDate" style="margin-top: 20px;margin-right: 15px;">开庭日期: </label>
+									<div class="ui-corner-all" style="margin-top: 5px;"><input type="date" id="courtDate" value="2023-11-01 14:00"></div>
+								</div >
+								</div>
+						
+					</div>
+                    
+                        <div id="process_update_collapset" data-role="collapsible" data-theme="a" data-content-theme="a" data-collapsed="false">
+                            <h3>进展明细</h3>
+                            <table id="process_update_list" class="ui-responsive table-stroke">
+                            </table>
+                        </div>
+                        <div id="process_execute_collapset" data-role="collapsible" data-theme="a" data-content-theme="a" data-collapsed="false" class="popup-hide">
+                            <h3>执行明细</h3>
+                            <table id="process_execute_list" class="ui-responsive table-stroke">
+                            </table>
+                        </div>
+						<div id="process_execute_collapset" data-role="collapsible" data-theme="a" data-content-theme="a" data-collapsed="false">
+							<h3>财产明细</h3>
+							<table id="process_property_list" class="ui-responsive table-stroke">
+							</table>
+						</div>
+                        <div data-role="collapsible" data-theme="a" data-content-theme="a" data-collapsed="false">
+                            <h3>附件</h3>
+                            <table id="process_update_upload_list" class="ui-responsive table-stroke">
+                            </table>
+                            <div><label>支持扩展名：rar. zip. doc. docx. pdf. jpg… 单个文件不超过200MB</label></div>
+                        </div>
+                    <fieldset class="ui-grid-a popup_status_buts">
+                        <div class="ui-block-a"><a id="process_update_save_but" href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-check popup_update_but">提交</a></div>
+                        <div class="ui-block-b"><a id="process_update_quit_cancel" href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-icon-back popup_update_but">取消</a></div>
+                    </fieldset>
+                </div>
+                <!--#endregion -->
+            </div>
+            <!--#endregion -->
+            <div id="page3">
+            </div>
+            <div id="page4" class="hide" >
+                <form class="ui-filterable filtertable">
+                    <input id="filterBasic-input4" data-type="search">
+                </form>
+                <table id="table4" data-mode="columntoggle" class="ui-responsive table-stroke" data-role="table" data-column-btn-text="" data-filter="true" data-input="#filterBasic-input4">
+                
+                </table>
+            </div>
+	
+	
+        </div>
+        <!--#endregion -->
+	</div>
+	
+
+	<script type="text/javascript">
+		//$('body').trigger("completed");
+        $(function () {
+            $("#table1").hpaging({ limit: 2 });
+			$("#table2").hpaging({ limit: 1 });
+			$("#table3").hpaging({ limit: 1 });
+			console.log($("#table1").find('tr:hidden'));
+        });
+		
+    </script>
+	
+<script type="text/javascript" src="./preload.js"></script>
+<script type="text/javascript" src="./utilities/templates.js"></script>
+
+<script type="text/javascript" src="./js/tools.js"></script>
+<script type="text/javascript" src="./form.js"></script>
+	<script src="./progress.js"></script>
+	<script src="./navigation.js"></script>
+	<script src="./caseRegister.js"></script>
+</body>
+</html>

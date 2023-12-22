@@ -1,0 +1,510 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>法务管理系统</title>
+	
+	<link rel="shortcut icon" href="./favicon.ico"/>
+	<link rel="stylesheet" href="./css/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" href="./css/ystep.css"/>
+	<link rel="stylesheet" href="./css/popup.css"/>
+	<link rel="stylesheet" href="./css/form.css" />
+	<script src="./js/jquery.js"></script>
+<script src="./js/jquery.mobile-1.4.5.min.js"></script>
+
+<script src="./js/jquery.table.hpaging.min.js"></script>
+
+<script src="./configs.js"></script>
+<script src="./js/db.js"></script>
+
+<link rel="stylesheet" href="./css/stepButton.css" />
+<script type="text/javascript" src="./js/tools.js"></script>
+<script type="text/javascript" src="./js/progressButton.js"></script>
+<script type="text/javascript" src="./js/progressesButton.js"></script>
+	<style>
+		#frame{
+			display: grid;
+  			grid-template-columns: 200px auto;
+			height: 100vh;
+			margin:0;
+			text-shadow: none;
+		}
+		#left{
+			background: #262626;
+			display: grid;
+			grid-template-rows: 100px 4fr 50px;
+			color:white;
+			align-content: center;
+			text-align: center;
+			padding: 0px 0px 0px 0px;
+			height: 100vh;
+			margin:0;
+		}
+		#right{
+			margin:0;
+			display: grid;
+			grid-template-rows: 100px auto;
+			height: 100vh;
+		}
+		#topright{
+			margin:0;
+			vertical-align: middle;
+			padding: 20px;
+		}
+		#main{
+			
+			padding: 20px;
+		}
+		#name{
+			text-align: right;
+			margin-right: 20px;
+		}
+		#name_outter{
+			display: grid;
+  			grid-template-columns: 2fr auto;
+			height:100px;
+			background: white;
+			line-height: 100px;
+			margin: 0;
+			padding: 0;
+			vertical-align: middle;
+		}
+		#photo{
+			margin: 0px 20px 0px 0px;
+			padding: 0;
+			vertical-align: middle;
+
+		}
+		#name_outter div{
+			display: inline-block;
+			text-align: right;
+			
+		}
+		#title{
+			text-align: center;
+			vertical-align: middle;
+		}
+		.noMargin{
+			margin:0px;
+		}
+        #table1 tbody tr td{
+            text-align: center;
+            vertical-align: middle;
+        }
+        #table1 thead tr th{
+            text-align: center;
+            vertical-align: middle;
+        }
+        .noMarrgin { 
+            margin: 0;
+            padding: 0;
+         }
+        .pagination { display: block;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto; 
+        }
+
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+
+        .pagination a.active {
+            background-color: #1362B7;
+            color: white;
+        }
+
+        .pagination a:hover:not(.active) { background-color: #ddd; }
+		.selected:after {
+			color: green;
+		}
+		.selected{
+			text-shadow: none;
+			color:white;
+			background:#1362B7
+		}
+		li a{
+			text-shadow: none;
+			color:bisque
+		}
+		.hide{
+			display: none;
+		}
+		#table_with_fn{
+			display:grid;
+			grid-template-columns: 2fr auto ;
+			grid-gap: 10px;
+		}
+		.option-mark{
+			color: #C31825;
+		}
+		.btn-icon-green:after{
+			background-color: green;
+		}
+		.btn-icon-red:after{
+			background-color: #C31825;
+		}
+		.btn-icon-blue:after{
+			background-color: #1362B7;
+		}
+		#add_case{
+			min-width: 800px;
+		}
+		.ui-grid-2{
+			display: grid;
+			grid-template-columns: 50% 50%;
+			grid-gap: 20px;
+			padding-right:20px;
+		}
+		.ui-grid-sub2{
+			display: grid;
+			grid-template-columns: auto 1fr;
+			grid-gap: 0px;
+			vertical-align: middle;
+			text-align: center;
+			line-height: 50px;
+		}
+		.ui-grid-sub2-textarea{
+			display: grid;
+			grid-template-columns: auto 1fr;
+			grid-gap: 0px;
+			vertical-align: middle;
+			text-align: center;
+			line-height: 50px;
+		}
+		.ui-grid-sub2-textarea label{
+			min-width: 120px;
+			text-align: left;
+			vertical-align: top;
+		}
+		.ui-grid-sub2 label{
+			min-width: 120px;
+			text-align: left;
+		}
+		.ui-grid-sub2 fieldset{
+			text-align: left;
+		}
+		.ui-grid-sub3{
+			display: grid;
+			grid-template-columns: auto auto 1fr;
+			grid-gap: 10px;
+			vertical-align: middle;
+			text-align: center;
+			line-height: 50px;
+			grid-column: span 2;
+		}
+		.error-input::after{
+			border:1px solid #C31825
+		}
+		.text-center{
+			position: relative;
+			text-align: center;
+			vertical-align: middle;
+			width:12%;
+			padding:0;
+		}
+		.text-center div{
+			position: absolute;
+			top:50%;
+			left:50%;
+			transform:translate(-50%,-50%);
+			text-align: center;
+			padding:0;
+		}
+		.table-row{
+			text-shadow: none;
+		}
+		#all_remove_buts{
+			top:170px;
+			position: absolute;
+		}
+		.filtertable{
+			top:105px;
+			position: absolute;
+			width: calc(100% - 240px);
+			z-index: 29;
+		}
+		#table1{
+			padding-top: 200px;
+		}
+		#table2{
+			
+			text-shadow: none;
+		}
+		#table2 td{
+			
+			padding: 5px;
+		}
+		.progress_but_container{
+			text-align: center;
+		}
+		.custom-border-radius .ui-btn-icon-notext.ui-corner-all {
+			-webkit-border-radius: .3125em;
+			border-radius: .3125em;
+		}
+		.progress_popup{
+			display: grid;
+			grid-template-columns: 1fr auto;
+			column-gap: 20px;
+		}
+		.popup-main{
+			-webkit-border-radius: .3125em;
+			border-radius: .3125em;
+			filter: drop-shadow(0 0.2rem 0.25rem rgba(0, 0, 0, 0.5));
+			position: absolute;
+			top:50%;
+			left:50%;
+			transform:translate(-50%,-50%);
+			background: white;
+			min-width:800px;
+			min-height:200px;
+			z-index: 99;
+			padding:10px 30px 10px 30px;
+		}
+		.popup-hide{
+			display:none;
+		}
+		.popup_status_buts{
+			bottom:20px;
+			vertical-align: bottom;
+		}
+		.popup-main table{
+			text-align: center;
+			vertical-align: middle;
+		}
+		.popup-main table th{
+			text-align: center;
+			vertical-align: middle;
+		}
+		#process_update_list td{
+			text-align: center;
+			vertical-align: top;
+		}
+		#popupBasic{
+			min-width: 800px;
+			padding: 20px;
+		}
+		#process_update_upload_list{
+			width: calc(100% - 0px);
+			display: table;
+			white-space: nowrap;
+		}
+		#progress_status_details{
+			min-width: 250px;
+		}
+		#popup_progress_lock{
+			background: #1362B7;
+			position: relative;
+			width:100%;
+			height:100%;
+		}
+		.progress_lock{
+			position: absolute;
+			top:30px;
+			right:30px;
+			z-index: 99;
+
+		}
+	</style>
+</head>
+	
+
+<body>
+	<div class="popup-background popup-a popup-hide"></div>
+        <div id="popup_progress_main" class="popup-main popup-hide">
+            
+            <h3 id="popup_progress_title"></h3>
+            <div class="progress_popup">
+                <div id="progress_status_details">test
+                </div>
+                <div id="progress_status_container"></div>
+            </div>
+            <fieldset class="ui-grid-a popup_status_buts">
+                <div class="ui-block-a"><a id="process_save_but" href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-check popup_status_but">提交</a></div>
+                <div class="ui-block-b"><a id="process_quit_cancel" href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-icon-back popup_status_but">取消</a></div>
+            </fieldset>
+        </div>
+		<div class="popup-background popup-b popup-hide"></div>
+	<div id="frame">
+	<div id="left">
+		<div id="title"><h2>法务系统管理</h2></div>
+		<div id="system_menus" data-role="collapsibleset" data-corners="false" data-iconpos="right" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
+			<div data-role="collapsible" data-theme="b" data-collapsed="false" >
+				<h3>案件管理</h3>
+				<ul data-role="listview">
+					<li name="li_1" data-icon="false"><a name="menu_1" href="#page1" data-page="#page1">案件登记</a></li>
+					<li name="li_2" data-icon="false"><a name="menu_2" href="#page2" data-page="#page2">案件进展</a></li>
+					<li name="li_3" data-icon="false"><a name="menu_3" href="#page3" data-page="#page3">案件执行</a></li>
+					<li name="li_4" data-icon="false"><a name="menu_4" href="#page4" data-page="#page1">案件查询</a></li>
+				</ul>
+			</div>
+			<div data-role="collapsible" data-theme="b" >
+				<h3>系统设置</h3>
+				<ul data-role="listview">
+				</ul>
+			</div>
+		</div>
+		<button class="ui-btn ui-shadow ui-btn-b ui-btn-icon-left ui-icon-clock noMargin" onclick='location.href=("index.html")'>退出</button>
+	</div>
+		<div id="right">
+			
+			<div id="name_outter">
+				<div><div class="ui-nodisc-icon ui-alt-icon"><a id="photo" href="#" class="ui-btn ui-corner-all ui-icon-user ui-btn-icon-notext ui-btn-inline"></a></div></div>
+				<div id="name"></div>
+			</div>
+			<div id="main">
+<div class="container">
+	<div id="page1">
+		<div id="table_with_fn">
+			<form class="ui-filterable">
+				<input id="filterBasic-input" data-type="search">
+			</form>
+		</div>
+		<div data-role="controlgroup" data-type="horizontal" id="all_remove_buts">
+			<a href="#" id="add_case_but"  class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-left btn-icon-green">新增</a>
+			<div data-role="popup" id="add_case_popup" data-theme="a" data-position-to="window" data-transition="pop"  class="ui-corner-all ui-shadow" data-dismissible="false" >
+					<form style="padding:10px 20px;" id="popup_form_main">
+					</form>
+			</div>
+			<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-left btn-icon-red">删除</a>
+		</div>
+		<div>
+			
+			<table id="table1" data-mode="columntoggle" class="ui-responsive table-stroke" data-role="table" data-column-btn-text="列" data-filter="true" data-input="#filterBasic-input">
+					
+			</table>
+		</div>
+				
+
+		
+	</div>
+	<div id="page2" class="hide">
+		<form class="ui-filterable filtertable">
+			<input id="filterBasic-input2" data-type="search">
+		</form>
+		<table id="table2" data-mode="columntoggle" class="ui-responsive table-stroke" data-column-btn-text="" data-role="table" data-filter="true" data-input="#filterBasic-input2">
+			<div id="popup_progress_main" class="popup-main popup-hide">
+				<h3 id="popup_progress_title"></h3>
+				<div class="progress_popup">
+					  <div id="progress_status_details">
+					  </div>
+					  <div id="progress_status_container"></div>
+					  <div id="popup_progress_lock">
+						<div class="ui-input-btn ui-btn ui-icon-lock ui-btn-icon-notext ui-corner-all">
+							<input type="button" data-enhanced="true" value="Enhanced - Icon only">
+					  	</div>
+					  </div>
+				</div>
+				<fieldset class="ui-grid-a popup_status_buts">
+					<div class="ui-block-a"><a id="process_update_save_but" href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-check popup_update_but">提交</a></div>
+					<div class="ui-block-b"><a id="process_update_quit_cancel" href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-icon-back popup_status_but">取消</a></div>
+				</fieldset>
+			</div>
+		</table>
+		
+		<div data-role="popup" id="popupBasic" data-history="false" data-transition="pop" data-dismissible="false">
+			<h3 id="process_updates_title"></h3>
+			<div class="process_updates_collapsibleset" style="width:900px;" data-role="collapsibleset" data-content-theme="b">
+				<div id="process_update_collapset" data-role="collapsible" data-theme="b" data-content-theme="a">
+					<h3>进展明细</h3>
+					<table id="process_update_list" class="ui-responsive table-stroke">
+					</table>
+				</div>
+				<div id="process_execute_collapset" data-role="collapsible" data-theme="b" data-content-theme="a" class="popup-hide">
+					<h3>执行明细</h3>
+					<table id="process_execute_list" class="ui-responsive table-stroke">
+					</table>
+				</div>
+				<div id="process_execute_collapset" data-role="collapsible" data-theme="b" data-content-theme="a" >
+					<h3>财产明细</h3>
+					<table id="process_property_list" class="ui-responsive table-stroke">
+					</table>
+				</div>
+				<div data-role="collapsible" data-theme="b" data-content-theme="a">
+					<h3>附件</h3>
+					<table id="process_update_upload_list" class="ui-responsive table-stroke">
+					</table>
+					<div><label>支持扩展名：rar. zip. doc. docx. pdf. jpg… 单个文件不超过200MB</label></div>
+				</div>
+			</div>
+			<fieldset class="ui-grid-a popup_status_buts">
+				<div class="ui-block-a"><a id="process_update_save_but" href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-check popup_update_but">提交</a></div>
+				<div class="ui-block-b"><a id="process_update_quit_cancel" href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-icon-back popup_update_but">取消</a></div>
+			</fieldset>
+		</div>
+	</div>
+	<div id="page3" class="hide">
+		<form class="ui-filterable filtertable">
+			<input id="filterBasic-input3" data-type="search">
+		</form>
+		<table id="table3" data-mode="columntoggle" class="ui-responsive table-stroke" data-role="table" data-column-btn-text="" data-filter="true" data-input="#filterBasic-input3">
+		<thead><th><td></td></th></thead>
+		
+		</table>
+	</div>
+	<div id="page4" class="hide" >
+		<form class="ui-filterable filtertable">
+			<input id="filterBasic-input4" data-type="search">
+		</form>
+		<table id="table4" data-mode="columntoggle" class="ui-responsive table-stroke" data-role="table" data-column-btn-text="" data-filter="true" data-input="#filterBasic-input4">
+		
+		</table>
+	</div>
+	
+	
+	
+</div>
+	</div>
+</div>
+</div>
+	<script type="text/javascript">
+		
+        $(function () {
+            $("#table1").hpaging({ limit: 5 });
+			$("#table2").hpaging({ limit: 5 });
+			$("#table3").hpaging({ limit: 5 });
+			$("#table4").hpaging({ limit: 5 });
+			
+        });
+		var menu_buts = document.querySelectorAll("a[name^=menu_]");
+		var selectedMenu=null;
+		menu_buts.forEach(function(menu_but) {
+			if(selectedMenu == null) {
+				selectedMenu=menu_but;
+				
+				//console.log($('a[name='+menu_but.name+"]").css('background-color'));
+				selectedMenu.style.color='white';
+				selectedMenu.style.textShadow ='none';
+				selectedMenu.style.background='#1362B7';
+			}
+			menu_but.addEventListener('click', function() {
+				if(selectedMenu != null) {
+					selectedMenu.style.color=TextColor;
+					selectedMenu.style.textShadow ='rgb(243, 243, 243) 0px 1px 0px';
+					selectedMenu.style.background='rgb(243, 243, 243)';
+				}
+				var pre_table=$(selectedMenu.dataset.page);
+				pre_table.addClass('hide');
+				selectedMenu=menu_but;
+				
+				//console.log($('a[name='+menu_but.name+"]").css('background-color'));
+				selectedMenu.style.color='white';
+				selectedMenu.style.textShadow ='none';
+				selectedMenu.style.background='#1362B7';
+				
+				var table=$(menu_but.dataset.page);
+
+				table.removeClass('hide');
+			//console.log(table);
+			});
+		});
+    </script>
+	<script src="./progress.js"></script>
+	<script src="./navigation.js"></script>
+	<script src="./caseRegister.js"></script>
+	<script src="./execute.js"></script>
+</body>
+</html>

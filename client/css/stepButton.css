@@ -1,0 +1,98 @@
+.outter{
+    position: relative;
+    margin:auto;
+  }
+  .inner-circle{
+    position: absolute;
+    z-index: 10;
+  }
+  .indicator-line{
+    position: absolute;
+    z-index: 11;
+  }
+  .indicator-circle{
+    position: absolute;
+    z-index: 12;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    /*border: 1px solid #000000;*/
+  }
+  .inner-line{
+    position: absolute;
+    z-index: 1;
+  }
+  .indicator-hide{
+    display: none;
+  }
+  .indicator-on{
+    background-color:#1362B7;
+  }
+  
+  .progress-but-disable{
+    cursor:default;
+    color:gray;
+  }
+  .progress-but-background-line{
+    position: absolute;
+    z-index: 10;
+    /*border: 1px solid #000000;*/
+  }
+  .progress-but-background-indicator{
+    z-index: 12;
+    text-align: center;
+    cursor:pointer;
+    font-weight: 700;
+    /*border: 1px solid #000000;*/
+  }
+  .progress-but-shadow{
+
+    filter: drop-shadow(0 0.2rem 0.25rem rgba(0, 0, 0, 0.5));
+  }
+  .progress-but-background-indicator span{
+    position: absolute;
+    text-shadow: none;
+    z-index: 21;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+  }
+  .progress-but-indicator-selected{
+    z-index: 11;
+  }
+  .progress-but-hide{
+    display:none;
+  }
+  .progress-but-frame{
+    position: absolute;
+    z-index: 12;
+    display: grid;
+    grid-template-rows: 1fr auto;   
+    
+    text-align: center;
+  }
+  .progress-but-label{
+    z-index: 22;
+    text-align: center;
+  }
+  .progress-but-counter{
+    z-index: 23;
+    position: absolute;
+    text-align: center;
+    background: orangered;
+    color:white;
+    text-align: center;
+    vertical-align: middle;
+    filter: drop-shadow(0 0.2rem 0.25rem rgba(0, 0, 0, 0.5));
+  }
+  .progress-popup-buttons{
+    position: absolute;
+    bottom:20px;
+    width:calc(100% - 40px);
+    text-align: center;
+    padding: 10px 0px;
+  }
+  /*
+  canvas{
+    position: absolute;
+  }
+  */

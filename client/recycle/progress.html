@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+	
+	<link rel="shortcut icon" href="./favicon.ico">
+	<link rel="stylesheet" href="./css/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" href="./css/ystep.css">
+	<script src="./js/jquery.js"></script>
+<script src="./js/jquery.mobile-1.4.5.min.js"></script>
+
+<style>
+      
+</style>
+    <link rel="stylesheet" href="./css/stepButton.css" />
+    <script src="./configs.js"></script>
+    <script src="./js/progressButton.js"></script>
+    <script src="./js/progressesButton.js"></script>
+    <title>Document</title>
+</head>
+<body>
+  <table>
+    <tbody>
+      <tr>
+        <td id="test1">
+          test
+        </td>
+        <td id="test2">
+          test1
+        </td>
+        <td id="test3">
+          test2
+        </td>
+      </tr>
+    </tbody>
+    
+  </table>
+  
+      <script>
+var progresses=["一审","二审","执行",["强制执行","正常执行","未执行"],"结案","再审","监督"];    
+var deads=["未执行"];    
+/*
+var but=new ProgressButton({
+  steps:["一审","二审","执行","结案"],
+  showLabel:true,
+  width:500,
+  currentPosition:2,
+  containerId:'#test1'
+});
+var but1=new ProgressButton({
+  steps:["一审","二审","执行","结案"],
+  showLabel:true,
+  containerId:'#test2',
+  currentPosition:3,
+});
+
+*/
+var but1=new ProgressesButton({
+  steps:progresses,
+  deadSteps:deads,
+  showLabel:true,
+  containerId:'#test3',
+  currentPosition:3.1,
+  fontSize:15,
+  line_size:4,
+  size:30,
+  width:800,
+  isViewMode:false
+});
+
+but1.instance.on("stepChanged",  function (e){
+  console.log(e.Position.main+"."+e.Position.sub);
+});
+but1.instance.on("itemOnClicked",  function (e){
+  //console.log(progresses[e.Position.main]+"."+e.Position.sub);
+  if(progresses[e.Position.main] instanceof Array){
+    console.log(progresses[e.Position.main][e.Position.sub]);
+  }else{
+    console.log(progresses[e.Position.main]);
+  }
+    
+});
+//test2.appendChild(but2.instance);
+/*
+test1.innerHTML=but.getHTML();
+document.querySelectorAll('.indicator-circle').forEach((item)=>{
+  item.addEventListener("click", async function (e){
+        //console.log(e);
+        await but._stepAnimation(e,500);
+        
+      });
+})
+console.log("this---"+but.instance);
+// 触发对象可以是任何元素或其他事件目标
+*/
+      </script>
+</body>
+</html>

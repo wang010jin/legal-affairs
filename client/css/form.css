@@ -1,0 +1,112 @@
+.optionMark{
+    color:#C31825;
+}
+.form_item_panel_tb{
+    text-align: left;
+}
+.form_item_panel_tb fieldset{
+    text-align: left;
+}
+.form_item_panel{
+    display:grid;
+    grid-template-columns: auto 1fr;
+    grid-gap:0px;
+    text-align: left;
+}
+.form_item_panel label{
+    min-width: 120px;
+    text-align: left;
+    vertical-align:top;
+    margin-top: 15px;
+} 
+.form_item_panel fieldset{
+    text-align: left;
+}
+.form_grid{
+    display:grid;
+    grid-gap: 20px;
+    padding:20px 0px;
+}
+.ui-selectmenu.ui-popup .ui-input-search {
+    margin-left: .5em;
+    margin-right: .5em;
+}
+.ui-selectmenu.ui-dialog .ui-content {
+    padding-top: 0;
+}
+.ui-selectmenu.ui-dialog .ui-selectmenu-list {
+    margin-top: 0;
+    background: white;
+}
+.ui-selectmenu.ui-popup .ui-selectmenu-list li.ui-first-child .ui-btn {
+    border-top-width: 1px;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+}
+.ui-selectmenu.ui-dialog .ui-header {
+    border-bottom-width: 1px;
+}
+
+.select-overflow{
+    overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#popupArrow {
+    position: absolute !important;
+    min-width:100px;
+    margin: 10px auto auto auto;
+  }
+.tooltip-form {
+    visibility: hidden;
+    background-color: #000;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    position: absolute;
+text-shadow: none;
+padding:5px 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1000;
+  }
+  @keyframes glowing-border {
+    0% {
+      box-shadow: 0 0 5px #1362B7;
+    }
+    50% {
+      box-shadow: 0 0 20px #1362B7;
+    }
+    100% {
+      box-shadow: 0 0 5px #1362B7;
+    }
+  }
+.newItem{
+    animation: glowing-border 2s infinite;
+}
+@keyframes slip-left-out {
+    0% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+  }
+  
+  .slip-left-out {
+    animation: slip-left-out 0.5s forwards;
+  }
+/*
+#caseOrgnizationPersonnel-button{
+    background: white;
+    box-shadow: none;
+}
+*/
+.inactived-row{
+  color:white;
+  background:orangered;
+  text-shadow: none;
+}

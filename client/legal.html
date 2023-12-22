@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./favicon.ico">
+    <title>国瑞法务管理系统</title>
+    <link rel="stylesheet" href="./css/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" href="./css/all.css" /><!--fontawesome-->
+	<link rel="stylesheet" href="./css/main.css" />
+	<link rel="stylesheet" href="./css/form.css" />
+	<link rel="stylesheet" href="./css/popup.css" />
+	<link rel="stylesheet" href="./css/color.css" />
+	<link rel="stylesheet" href="./css/progressDiagram.css" />
+	<link rel="stylesheet" href="./css/superMultiSelect.css" />
+    <script src="./js/jquery.js"></script>
+	<script src="./js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="./js/crypto/core.js"></script>
+    <script src="./js/crypto/lib-typedarrays.js"></script>
+    <script src="./js/crypto/x64-core.js"></script>
+    <script src="./js/crypto/enc-base64.js"></script>
+    <script src="./js/crypto/cipher-core.js"></script>
+    <script src="./js/crypto/aes.js"></script>
+    <script src="./js/fancyTable.js"></script>
+	<script src="./utilities/configs.js"></script>
+    <script type="text/javascript" src="./utilities/tools.js"></script>
+	<script type="text/javascript" src="./elements/form.js"></script>
+	<script type="text/javascript" src="./elements/tables.js"></script>
+	<script type="text/javascript" src="./elements/progressDiagram.js"></script>
+	<script type="text/javascript" src="./elements/superMutliSelect.js"></script>
+	<script type="text/javascript" src="./utilities/eventManager.js"></script>
+	<script type="text/javascript" src="./elements/timeline.js"></script>
+    
+	<script type="text/javascript" src="./elements/toggleButton.js"></script>
+</head>
+<body>
+    <!-- 主页面 -->
+    <div data-role="page" id="main">
+		<span class="ui-tooltip"></span>
+        <div data-role="header" id="main-header" data-position="fixed" data-tap-toggle="false" >
+            
+            
+            <div class="header-search-bar";">
+                <div class="header-search-container" href="#"><i class="fa fa-search header-btn-s0000123123234earch"></i><span class="tooltip-serarch">开启搜索</span></div>
+                <input type="search" id="header-search-input" class="search-input" data-icon="tag" placeholder="关键字索引"></input>
+                
+            </div>
+            <h1 style="font-size: 40px;padding-top:20px;"><img id="headerLogo" src=""  width="40px" height="40px" style="margin:10px 20px -10px 0;"></img>国瑞法务管理系统</h1>
+            <a id="username" href="#popupMenu" data-rel="popup" data-transition="slide" data-icon="user" class="ui-btn-right">登录</a>
+            <div data-role="popup" id="popupMenu" data-theme="b" data-history="false">
+                <ul data-role="listview" data-inset="true" style="min-width:160px;" data-theme="b">
+                    <li data-role="list-divider">操作</li>
+                    <li><a class="ui-btn ui-btn-a ui-btn-icon-left btn-icon-red ui-icon-power">退出</a></li>
+					<li><a href="#infoPage" class="ui-btn ui-btn-a ui-icon-user btn-icon-blue ui-btn-icon-left popup-menu-btns" data-rel="back">个人信息</a></li>
+					<li data-role="list-divider" class="admin-ui">用户</li>
+					<li><a href="#infoPage" class="ui-btn ui-btn-a ui-btn-icon-left btn-icon-green btn-icon-edit ui-icon-edit popup-menu-btns popup-edit-user admin-ui" data-rel="back">修改用户</a></li>
+					<li><a href="#infoPage" class="ui-btn ui-btn-a ui-btn-icon-left btn-icon-blue ui-icon-plus popup-menu-btns popup-add-user admin-ui" data-rel="back">添加用户</a></li>
+					<li data-role="list-divider" class="admin-ui">数据库</li>
+					<li><a href="#databasePage" class="ui-btn ui-btn-a ui-btn-icon-left btn-icon-green btn-icon-edit ui-icon-edit popup-menu-btns popup-edit-gear admin-ui" data-rel="back">数据库管理</a></li>
+                </ul>
+            </div>
+            
+            
+        </div>
+        <div id="main-body" class="ui-body-d ui-content">
+            <table id="pageOneTable" data-role="table" class="ui-responsive table-stroke" data-filter="true" data-input="#header-search-input"></table>
+            
+            <div id="header-filter-container" class="header-filter-container">
+                <table id="pageOneTable-fixed" data-role="table" class="ui-responsive table-stroke"></table>
+            </div>
+        </div>
+        <div data-role="footer"  data-position="fixed" id="mainFooter">
+
+				<div data-role="controlgroup" data-type="horizontal" class="ui-mini ui-shadow ui-btn-left ui-footer-btns">
+					<a href="#casePage" id="case_reg_but_add" class="ui-btn ui-btn-icon-left ui-icon-plus btn-icon-green case_reg_but footerBtn">新增</a>
+					<a href="#" id="case_reg_but_remove" class="ui-btn ui-btn-icon-left ui-icon-delete btn-icon-red case_reg_but">删除</a>
+					<a href="#" id="case_reg_but_restore" class="ui-btn ui-btn-icon-left ui-icon-recycle btn-icon-blue case_reg_but admin-ui">还原</a>
+				</div>
+				<h1 id="footer_info_bar" class="footer-info-bar"></h1>
+			</div>
+    </div>
+    <!-- /主页面 -->
+    <!-- 案件页面 -->
+    <div data-role="page" id="casePage">
+	
+		<div data-role="header" data-position="fixed">
+				<a href="#" class="ui-btn-left ui-btn ui-btn-inline ui-corner-all ui-mini ui-btn-icon-left ui-icon-back btn-icon-blue edit-header-btn" data-rel="back">返回</a>
+			<h1 id="reg_form_title">My App</h1>
+			<button name="save_btn" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-corner-all ui-btn-icon-right ui-icon-check btn-icon-green edit-header-btn">保存</button>
+		</div><!-- /header -->
+		
+		<div data-role="popup" id="popupArrow" data-arrow="true" style="padding:5px;"></div>
+			<form role="main" data-ajax="false" id="case_reg_page">
+
+			</form>
+		
+
+	</div>
+    <!-- /案件页面 -->
+    <!-- 案件进度页面 -->
+    <div data-role="page" id="progress">
+		<div data-role="header" data-position="fixed">
+			<a href="#" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-back btn-icon-blue edit-header-btn" data-rel="back">返回</a>
+			<h1 id="progress_title">My App</h1>
+			<button name="save_btn" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-corner-all ui-btn-icon-right ui-icon-check btn-icon-green edit-header-btn">保存</button>
+		</div><!-- /header -->
+		<div data-role="panel" id="update_panel" data-position="right" data-display="overlay" data-position-fixed="true" data-dismissible="false" data-theme="a" style="width:100%;">
+			<h4 id="update_list_title"> </h4>
+			<ul data-role="listview" data-inset="true" id="event_list" data-theme="a">
+	
+			</ul>
+		</div><!-- /panel -->
+		<div class="ui-body-d ui-content" style="display: grid;grid-template-columns: auto 1fr;column-gap: 30px; vertical-align: middle;">
+			
+			<div id="progress_details" style="width: 350px;"></div>
+			<div id="progress_diagram" style="display: inline;text-align: center; position: relative;margin-left: 10px;"></div>
+			
+		</div>
+		<div data-role="popup" id="progress_popupMenu" data-theme="a">
+			<ul data-role="listview" data-inset="false" style="min-width:210px;">
+				<li data-role="list-divider" id="progress_popupMenu_title">请选择操作</li>
+				<li><a href="#">查看</a></li>
+				<li data-role="list-divider" class="progress_popupMenu_add_group">添加</li>
+				<ul data-role="listview" id="progress_popupMenu_add_group" class="progress_popupMenu_add_group">
+					<li><a href="#">进展</a></li>
+					<li><a href="#">执行</a></li>
+					<li><a href="#">财产</a></li>
+					<li><a href="#">附件</a></li>
+					<li><a href="#casePage">关联</a></li>
+				</ul>
+			</ul>
+		</div><!-- /collapsible -->
+		<div data-role="popup" id="progress_popup_add" data-theme="a" style="z-index: 1100;padding: 20px;">
+			<h3 id="progress_popup_add_title">test</h3>
+			<form id="progress_popup_add_form"></form>
+			<fieldset class="ui-grid-a">
+				<div class="ui-block-a"><a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-icon-left ui-icon-back btn-icon-blue" data-rel="back">返回</a></div>
+				<div class="ui-block-b"><a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-icon-right ui-btn-b ui-icon-check btn-icon-green progress_popup_add_form_submit">提交</a></div>
+			</fieldset>
+		</div>
+		
+	</div>
+    <div data-role="page" id="timeline">
+		
+		<div data-role="header" data-position="fixed">
+				<a href="#" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left btn-icon-blue ui-icon-back" data-rel="back">返回</a>
+			<h1 id="timelineTitle">A202311110005</h1>
+			</div>
+			<div class="ui-body-d ui-content">
+				<div data-role="panel" id="event_panel" data-position="right" data-display="overlay" data-position-fixed="true" data-theme="b" style="width:300px;">
+					<h4 id="event_list_title"> </h4>
+					<ul data-role="listview" data-inset="true" id="event_list" data-theme="a">
+			
+					</ul>
+				</div><!-- /panel -->
+				<div style="display:grid;grid-template-columns: 450px 1fr;background: white;">
+					<div id="summary_list"></div>
+					<canvas id="myCanvas" width="800" height="1200" >
+				</div>
+				
+				<div data-role="popup" id="popupDialog" data-overlay-theme="b" data-theme="a" data-dismissible="true" style="min-width:400px;padding:15px;">
+					<h4 id="event_list_title"> </h4>
+					<div role="main" class="ui-content">
+						<ul data-role="listview" data-inset="true" id="event_list">
+			
+						</ul>
+						
+					</div>
+				</div>
+			</div>
+			
+	</div>
+    <!-- /案件进度页面 -->
+    <div data-role="page" id="progress_details_info" >
+		<div data-role="header" data-position="fixed">
+			<a href="#" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-back btn-icon-blue edit-header-btn" data-rel="back">返回</a>
+			<h1 id="progress_details_info_title">My App</h1>
+			
+		</div><!-- /header -->
+		<div class="ui-body-d ui-content">
+			<ul data-role="listview" data-inset="true" data-theme="a" data-divider-theme="b" id="progress_details_info_body"></ul>
+		</div>
+		<div data-role="popup" id="progress_popup_edit" data-theme="a" style="z-index: 1100;padding: 20px;">
+			<h3 id="progress_popup_edit_title">test</h3>
+			<form id="progress_popup_edit_form"></form>
+			<fieldset class="ui-grid-a">
+				<div class="ui-block-a"><a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-icon-left ui-icon-back btn-icon-blue" data-rel="back">返回</a></div>
+				<div class="ui-block-b"><a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-icon-right ui-btn-b ui-icon-check btn-icon-green progress_popup_edit_form_submit">提交</a></div>
+			</fieldset>
+		</div>
+	</div>
+	<div data-role="page" id="infoPage" >
+		<div data-role="header" data-position="fixed">
+			<a href="#" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-back btn-icon-blue edit-header-btn" data-rel="back">返回</a>
+			<h1 id="info_title">个人信息</h1>
+			<button name="save_btn" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-corner-all ui-btn-icon-right ui-icon-check btn-icon-green edit-header-btn info-save-btn">保存</button>
+		</div><!-- /header -->
+		<div class="ui-body-d ui-content">
+			<div id="info_container"></div>
+			<ul data-role="listview" data-inset="true" data-theme="a" data-divider-theme="b" id="info_listview"></ul>
+		</div>
+	</div>
+	<div data-role="page" id="databasePage" >
+		<div data-role="header" data-position="fixed">
+			<a href="#" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-back btn-icon-blue edit-header-btn" data-rel="back">返回</a>
+			<h1 id="database_title">数据库管理</h1>
+		</div><!-- /header -->
+		<div class="ui-body-d ui-content admin-ui">
+			<div id="database_container"></div>
+		</div>
+	</div>
+    <!--首页读取界面-->
+	<div id="main-container">
+		<div class="loading_logo_title">
+			<img id="loadingLogo" class="logo-image" src=""  width="200px" height="200px"></img>
+			<h1>国瑞法务管理系统</h1>
+		</div>
+		
+	</div>
+
+    <script type="text/javascript" src="./utilities/fakeData.js"></script>
+	<script type="text/javascript" src="./utilities/resourceData.js"></script>
+	<script type="text/javascript" src="./utilities/db.js"></script>
+	<script type="text/javascript" src="./utilities/preload.js"></script>
+	<script type="text/javascript" src="./utilities/templates.js"></script>
+	<script type="text/javascript" src="./utilities/formGenerator.js"></script>
+    <script type="text/javascript" src="./pages/timelinePage.js"></script>
+    <script type="text/javascript" src="./utilities/setClickedEvents.js"></script>
+    
+    <script type="text/javascript" src="./pages/legal.js"></script>
+    <script>
+        
+        
+    </script>
+</body>
+</html>

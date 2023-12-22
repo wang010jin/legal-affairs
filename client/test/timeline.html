@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+	<link rel="stylesheet" href="../css/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" href="../css/stepButton.css" />
+	<script src="../js/jquery.js"></script>
+    <script src="../js/jquery.mobile-1.4.5.min.js"></script>
+	<script src="../configs.js"></script>
+	<script src="../js/tools.js"></script>
+	<script src="../js/progressesButton.js"></script>
+	<script src="../utilities/timeline.js"></script>
+    <style>
+        body{
+            background-color: white;
+            height: 100%;
+            border:none;
+        }
+        .ui-collapsible.collapsible-listview .ui-btn{
+background-color: white !important;
+box-shadow: none;
+}
+.ui-collapsible.collapsible-listview{
+    border:none;
+box-shadow: none;
+}
+.ui-li-count{
+    color:white;
+    background: black;
+}
+    </style>
+</head>
+<body>
+    <div style="display:grid;grid-template-columns: 450px 1fr;background: white;">
+        <div id="summary_list"></div>
+        <canvas id="myCanvas" width="800" height="1200" >
+    </div>
+    <div data-role="popup" id="popupDialog" data-overlay-theme="b" data-theme="a" data-dismissible="true" style="min-width:400px;padding:15px;">
+        <h4 id="event_list_title"> </h4>
+        <div role="main" class="ui-content">
+            <ul data-role="listview" data-inset="true" id="event_list">
+
+            </ul>
+            
+        </div>
+        <div style="padding-left:15px;">
+        </div>
+    </div>
+    <script>
+        var deads=["未执行"]; 
+        //var cricles=[];
+
+        
+        
+        //de.addListener('click',function(e){
+            //console.log(e);
+        //})
+        var canvas=document.getElementById('myCanvas');
+        eventManager.setCanvas(canvas);
+        var _ctx=canvas.getContext('2d');
+        //const progresses=["一审","二审","执行",["强制执行","正常执行","未执行"],"结案","再审","监督"];   
+        
+        
+        var _data={
+            template:["立案","一审","二审","执行","结案","再审","监督"],
+            basic:{
+                id:1,caseNo:"A202311110005",caseName:"管文波离职案件",caseLabel:2,caseReason:0,caseType:0,caseBelong:0,applicant:"张国庆",
+                caseCause:6,createDate:"2023-08-11 14:03:19",casePersonnel:"公司1,个人0",case2ndParty:"李四",isReadOnly:true,caseLawsuitRequest:"",caseCounterclaimRequest:"",caseSum:"",caseLawsuit:500,caseCounterclaim:0
+            },
+            progressStatus:{
+                id:1,caseNo:"A202311110005",caseLegal:"贺璐璐",caseLawfirm:"",caseAttorney:"",courtDate:"2023-09-11 14:00:00",
+                penaltyAmount:500.00,exexuteAmount:243.00,caseStatus:4.1,courtName:1,caseOrgnizationPersonnel:"法官0,其他1"
+                ,data:[
+                    {id:1,subid:0,caseStatusId:0,caseNo:"A202311110005",caseUpdated:"23.9.28送达一审判决书",caseDisputed:"",dateUpdated:"2023-11-01 14:00:00",dateOccur:"2023-09-28 14:00:00"},
+                    {id:1,subid:1,caseStatusId:0,caseNo:"A202311110005",caseUpdated:"23.10.13送达判决书",caseDisputed:"",dateUpdated:"2023-11-02 14:00:00",dateOccur:"2023-10-13 14:00:00"},
+                    {id:1,subid:0,caseStatusId:1,caseNo:"A202311110005",caseUpdated:"23.10.28送达二审判决书",caseDisputed:"",dateUpdated:"2023-12-01 14:00:00",dateOccur:"2023-10-28 14:00:00"}
+                ]
+            },
+            excuteStatus:[
+                {id:1,subId:0,caseStatusId:3.1,caseNo:"A202311110005",personExecuted:"张三",personContact:18612221231,purposeExecute:"财产",exexuteAmount:200,sumExecuted:"",filePath:"",dateExecuted:"2023-12-11 14:00:00"},
+                {id:1,subId:1,caseStatusId:3.1,caseNo:"A202311110005",personExecuted:"张五",personContact:1572312534,purposeExecute:"",exexuteAmount:34,sumExecuted:"",filePath:"",dateExecuted:"2023-12-21 14:00:00"},
+            ],
+            propertyStatus:[
+                {id:1,caseNo:"A202311110005",caseStatusId:3.1,subId:0,propertyName:"未知",propertyStatus:1,dateUpdated:"2023-12-01 14:00:00",dateOccur:"2023-12-01 14:00:00"},
+
+            ],
+            attachments:[
+                {id:1,evidenceId:0,caseStatusId:0,caseNo:"A202311110005",numFile:2,numCPage:5,numCopy:1,numOriginal:1,fileName:"审判决书",filePath:"",dateUploaded:"2023-11-01 14:00:00"},
+            ]
+        }
+        
+        
+        var dataList=[
+            {
+                label:"立案",
+                date:_data.basic.createDate,
+                id:0
+            },
+            {
+                label:"一审",
+                date:_data.progressStatus.courtDate,
+                id:1,
+                data:[
+                    {
+                        date:"2023-09-28 14:00:00",
+                        label:"送达一审判决书"
+                    },
+                    {
+                        date:"2023-10-13 14:00:00",
+                        label:"送达修改判决书"
+                    },
+                    {
+                        date:"2023-11-01 14:00:00",
+                        label:"上传审判决书"
+                    }
+
+                ]
+            },
+            {
+                label:"二审",
+                id:2,
+                data:[
+                    {
+                        date:"2023-10-28 14:00:00",
+                        label:"送达二审判决书"
+                    },
+                    {
+                        date:"2023-12-01 14:00:00",
+                        property:"未知",
+                        status:"查封",
+                        type:"property",
+                        label:"查封 【未知】财产"
+                    }
+
+                ]
+            },
+            {
+                label:"正常执行",
+                id:3,
+                data:[
+                    {
+                        date:"2023-12-11 14:00:00",
+                        label:"执行标的【财产】",
+                        amount:"200",
+                        personal:"张三",
+                        type:"execute",
+                        label:"张三 执行标的【财产】 200万元"
+                    },
+                    {
+                        date:"2023-12-21 14:00:00",
+                        label:"执行标的【未知】",
+                        amount:"43",
+                        personal:"张五",
+                        type:"execute",
+                        label:"张五 执行标的【未知】 43万元"
+                    }
+
+                ]
+            }
+        ]
+        drawTimeline(_data,_ctx);
+        //console.log(["Jenny", "Matilda", "Greta"].indexOf("Matilda")); // true
+
+        _cricles.forEach((circle)=>{
+            //console.log(Object.getPrototypeOf(circle))
+            //console.log(Object.keys(Object.getPrototypeOf(circle)).includes('addListener'));
+            circle.addListener('click',function(e){
+                console.log(this.sourceData.label+" ["+this.sourceData.index+"]--"+e.type);
+                
+                var datas=dataList.filter((item)=>item.id==this.sourceData.index);
+                if(datas.length>0 && datas[0].data!= undefined){
+                    $('#event_list').children().remove();
+                    $('#event_list_title').text(this.sourceData.label);
+                    datas[0].data.forEach((ite)=>{
+                        var date_bar=$('<li data-role="list-divider">'+formatDateTime(new Date(ite.date),"yyyy年MM月dd日 ")+'</li>');
+                        var item_container=$('<li></li>');
+                        var list_item=$('<label>'+ite.label+'</label>');
+                        item_container.append(list_item);
+                        $('#event_list').append(date_bar);
+                        
+                        $('#event_list').append(item_container);
+                    });
+                    //$('#event_list').append();
+                    $('#event_list').listview('refresh');
+                    $('#popupDialog').popup("open");
+                }
+                
+            })
+            circle.addListener('mouseover',function(e){
+                console.log(this.sourceData.label+" ["+this.sourceData.index+"]--"+e.type);
+                $(canvas).css({cursor:"pointer"});
+                e.ctx.globalCompositeOperation = "source-over";
+            })
+            circle.addListener('mouseout',function(e){
+                console.log(this.sourceData.label+" ["+this.sourceData.index+"]--"+e.type);
+                $(canvas).css({cursor:"default"});
+            })
+        });
+        setSummaryList(_summary_template,_data,'#summary_list');
+        
+    </script>
+</body>
+</html>

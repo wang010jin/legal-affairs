@@ -1,0 +1,22 @@
+﻿.pagination { display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto; 
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #1362B7;
+  color: white;
+}
+
+.pagination a:hover:not(.active) { background-color: #ddd; }
+.selected:after {
+color: green;
+}

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/jquery.mobile-1.4.5.min.css">
+    <link rel="stylesheet" href="./css/color.css">
+    <style>
+        body{
+            overflow-y:hidden;
+        }
+        .tableWrapper { height: 600px; width: 100%; overflow-y: scroll; overflow-x: scroll;}
+
+            td tr table { padding: 0; margin: 0; }
+            table td {border-right: 1px solid lightgray;max-width: 150px; text-align: center;vertical-align: middle;height:60px;}
+            table th {border-right: 1px solid lightgray;padding: 0; margin: 0;text-align: center;vertical-align: middle;}
+            tr.focused { background-color: #ddd; }
+            .font12{
+                font-size: 12px;
+            }
+            .font12 label{
+                font-size: 12px;
+            }
+            .font12 input[type=checkbox]{
+                width: 16px;
+                height:16px;
+            }
+            .hide{
+                display:none;
+            }
+            @keyframes glowing-border {
+                0% {
+                box-shadow: 0 0 5px #1362B7;
+                }
+                50% {
+                box-shadow: 0 0 20px #1362B7;
+                }
+                100% {
+                box-shadow: 0 0 5px #1362B7;
+                }
+            }
+            .newTableItem{
+                animation: glowing-border 2s infinite;
+            }
+        </style>
+    <script src="./js/jquery.js"></script>
+    <script src="./js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="./js/crypto/core.js"></script>
+    <script src="./js/crypto/lib-typedarrays.js"></script>
+    <script src="./js/crypto/x64-core.js"></script>
+    <script src="./js/crypto/enc-base64.js"></script>
+    <script src="./js/crypto/cipher-core.js"></script>
+    <script src="./js/crypto/aes.js"></script>
+    <script type="module" src="./lazytable/main.js"></script>
+    <script src="./utilities/tools.js"></script>
+    <script src="./utilities/db.js"></script>
+    <script src="./utilities/configs.js"></script>
+    <script src="./utilities/resourceData.js"></script>
+    <script src="./elements/superMutliSelect.js"></script>
+    
+</head>
+<body>
+    <script>
+    
+    function getSuperMultValue(template,data,isMultiInput){
+        console.log('getSuperMultValue',data);
+        var data=data.split(',');
+        var multiValues=[];
+        data.forEach(_v=>{
+            var _values=isMultiInput?formatSuperMultiSelectData(_v):formatSuperMultiSelectOptionValue(_v);
+            //console.log('setSumList',_values);
+            if(template.hasOwnProperty('displayFormat')){
+                var displayFormat=template.displayFormat;
+                $.each(_values,(kk,vv)=>{
+                    if(displayFormat.indexOf(kk)>-1){
+                        displayFormat=displayFormat.replace("{"+kk+"}",vv);
+                    }
+                })
+                multiValues.push(displayFormat);
+            }else{
+                var collector=[];
+                $.each(_v,(kk,vv)=>{
+                    collector.push(vv);
+                })
+                multiValues.push(collector.join(" "));
+            }
+        });
+        return multiValues;
+    }
+    function getValueIfHaveDataRef(template,data){
+        
+        if(template.hasOwnProperty('data') && template.data!=undefined){
+            var refData=template.data;
+            //console.log('hasOwnProperty data',refData);
+            if(template.type=='supermulticombobox'){
+                return getSuperMultValue(template,data,false).join("<br/>");
+            }else if(template.type=='supermultiinput'){
+                return getSuperMultValue(template,data,true).join("<br/>");
+            }else{
+                var _data;
+                if(template.hasOwnProperty('matchKey')){
+                    refData=$.grep(refData,d=>d[template.matchKey]==data);
+                }else{
+                    refData=[refData[data]];
+                }
+                if(template.hasOwnProperty('valueKey')){
+                    if(refData.length>0) _data = refData[0][template.valueKey];
+                }else{
+                    if(refData.length>0) _data = refData[0];
+                }
+                if(template.hasOwnProperty('displayFormat')){
+                    _data=template.displayFormat.replace('{}',_data);
+                }
+                return _data;
+            }
+            
+        }else {
+            if(template.hasOwnProperty('displayFormat')){
+                data=template.displayFormat.replace('{}',data);
+            }
+            return data;
+        }
+    }
+    function getTdHtml(template,data,id){
+        var td=$('<td name="'+id+'"" style="text-align: center;vertical-align: middle;"></td>');
+        if(template.type!="checkbox" && template.type!="buttons"){
+            //data=getValueIfHaveDataRef(template,data);
+            if(data==null||data.length==0) data=template.defaultValue!=undefined?template.defaultValue:"无";
+        }
+        var ele=$('<label>'+data+'</label>');
+        switch(template.type){
+            case "backgroundColorLabel":
+                var ele=$('<label>'+data+'</label>');
+                if(template.hasOwnProperty('backgroundData')){
+                    td.css(template.backgroundData[data]);
+                }
+                break;
+            case "date":
+                console.log('date',data);
+                var date=data;
+                if(data=='0000-00-00 00:00:00'){
+                    date=template.defaultValue!=undefined?template.defaultValue:"无";
+                }else{
+                    date=getDateTime(data);
+                    if(template.dateFormat!=undefined) date=formatDateTime(new Date(data),template.dateFormat);
+                }
+                ele=$('<label>'+date+'</label>');
+                break;
+            case "checkbox":
+                ele=$('<input class="reg-checkbox" style="left:0px;" type="checkbox" data-mini="true" name="item_checkbox" data-item='+data+'>');
+                break;
+            case "buttons":
+                if(template.data!=undefined){
+                    ele=$(template.data.replace("{0}",JSON.stringify(data)));
+                }
+                break;
+                
+        }
+        if(template.isHidden){
+            td.hide();
+        }
+        if(template.width!=undefined){
+            td.css({width:template.width})
+        }
+        td.append(ele);
+        //td.trigger('create');
+        return td;
+    }
+    function fnBtnClickEvent(e){
+        console.log(e);
+    }
+    
+    </script>
+    
+    
+<script>
+    $('body').on(main_load_completed_event_name,function(){
+        //console.log(DataList);
+        const intervalId = setInterval(() => {
+            if (_firstPageTableColumns!=undefined) {
+                clearInterval(intervalId);
+                console.log('decrypted',encrypt('1234'),decrypt(encrypt('1234')));
+                var convertedData=[];
+                $.each(DataList.casesDb,(index,value)=>{
+                    var item={};
+                    $.each(value,(k,v)=>{
+                        if(_firstPageTableColumns.hasOwnProperty(k))
+                            item[k]=getValueIfHaveDataRef(_firstPageTableColumns[k],v);
+                        else
+                            item[k]=v;
+                    });
+                    convertedData.push(item);
+                });
+                var testData=[0,1,2,3,4,5,6,7];
+                $.each(testData,(index,data)=>{
+                    console.log(data)
+                    if(index==5) return false;
+                })
+                console.log('convertedData',convertedData);
+                var fn_btns='<div data-role="controlgroup" data-type="horizontal" data-mini="true">'+
+                                '<a href="#" name="fn_btn_details" class="ui-btn btn-icon-green ui-icon-info ui-btn-icon-notext btn-tooltip" data-tooltip="案件总览" data-transition="slidefade" onclick=\'fnBtnClickEvent(this,{0})\'>查看</a>'+
+                                '<a href="#casePage" name="fn_btn_edit" class="ui-btn btn-icon-blue btn-tooltip ui-btn-icon-notext ui-icon-edit" data-tooltip="案件编辑修改" data-transition="slidefade" onclick=\'fnBtnClickEvent({0})\'>修改</a>'+
+                                '<a href="#" name="fn_btn_update" class="ui-btn btn-icon-red btn-tooltip ui-btn-icon-notext ui-icon-calendar" data-tooltip="更新案件进展" data-transition="slidefade" onclick=\'fnBtnClickEvent({0})\'>更新</a>'+
+                            '</div>';
+                _firstPageTableColumns.rowButtons.data=fn_btns;
+                _firstPageTableColumns.rowButtons.width=150;
+                var keys=Object.keys(_firstPageTableColumns);
+                var thead=$('<thead></thead>');
+                var theadtr=$('<tr></tr>');
+                keys.forEach(k=>{
+                    var th=$('<th name="'+k+'"" style="text-align: center;vertical-align: middle;">'+_firstPageTableColumns[k].label+'</th>');
+                    if(_firstPageTableColumns[k].type=='checkbox'){
+                        th=$('<th name="'+k+'"" style="text-align: center;vertical-align: middle;"></th>');
+                        th.append($('<input class="reg-checkbox-all" style="left:0px;" type="checkbox" data-mini="true" name="item_checkbox">'));
+                    }
+                    
+                    theadtr.append(th);
+                });
+                thead.append(theadtr);
+                $('.tableWrapper').find('table').prepend(thead);
+                $('.tableWrapper').find('table').trigger('create');
+                var lt=$('.tableWrapper').LazyTable({
+                    debug: true,
+                    data: convertedData,
+                    template:_firstPageTableColumns,
+                    toggleButton:'#columntToggle',
+                    generator: function(row,columnVisibility) { 
+                        console.log('row',row);
+                        var ids=Object.keys(columnVisibility);
+                        if(ids.length>0){
+                            $.each(columnVisibility,(id,visible)=>{
+                                if(_firstPageTableColumns.hasOwnProperty(id))
+                                    _firstPageTableColumns[id].isHidden=!visible;
+                            })
+                            
+                        }
+                        var tr=$('<tr></tr>');
+                        keys.forEach(k=>{
+                            if(row.hasOwnProperty(k)){
+                                var td=getTdHtml(_firstPageTableColumns[k],row[k],k);
+                                if(k=='caseApplicant') {
+                                    console.log('caseApplicant',td)
+                                }
+                                tr.append(td);
+                            }else{
+                                if(_firstPageTableColumns[k].type=="checkbox" || _firstPageTableColumns[k].type=="buttons")
+                                    tr.append(getTdHtml(_firstPageTableColumns[k],row,k));
+                            }
+                        })
+                        return '<tr id="' + row.id + '">' + tr.html() + '</tr>'; ; 
+                    }
+                });
+                $('.nRows').text(DataList.casesDb.length);
+                $('#rowNumber').attr('max', DataList.casesDb.length);
+                $('#focus').on('click', function() {
+                    
+                    const i = parseInt($('#rowNumber').val());
+                    //lt.deleteFn(i,i+1);
+                    DataList.casesDb[0].caseName="我改变了";
+                    DataList.casesDb[0].id=281;
+                    var tr=$('<tr id="'+DataList.casesDb[0].id+'"></tr>');
+                    keys.forEach(k=>{
+                        if(DataList.casesDb[0].hasOwnProperty(k)){
+
+                            tr.append(getTdHtml(_firstPageTableColumns[k],DataList.casesDb[0][k],k));
+                        }else{
+                            tr.append(getTdHtml(_firstPageTableColumns[k],DataList.casesDb[0],k));
+                        }
+                    })
+                    lt.addRow(tr);
+                    //lt.updateData(DataList.casesDb);
+                    //$('#'+i).hide();
+                    
+                });
+                $('.tableWrapper').on('filterChanged',function(e){
+                    //console.log(e.value);
+                });
+            }
+        }, 100);
+
+    });
+    
+</script>
+<script src="./utilities/templates.js"></script>
+<script src="./utilities/preload.js"></script>
+
+<input id="filterTable-input" type="text">
+<a href="#" id="columntToggle">test</a>
+<div class="tableWrapper" >
+      <table data-role="table" class="ui-responsive table-stroke" data-input="#filterTable-input">
+      </table>
+    </div>
+    <div class="tableInfo">Rows: <span class="nRows"></span></div>
+    <div class="focus"><label for="rowNumber">Focus: </label><input id="rowNumber" name= "rowNumber" type="number" min="1"/><button id="focus">Go</button></div>
+</body>
+</html>

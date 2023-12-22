@@ -1,0 +1,82 @@
+.stepPoint{
+  position: absolute;
+  z-index: 12;
+  background-color: lightgray;
+  transform:translate(-50%,-50%);
+  text-align: center;
+font-weight: 700;
+border-color: lightgray;
+}
+.stepLine{
+  position: absolute;
+  z-index: 10;
+  background-color: lightgray;
+  transform:translate(0%,-50%);
+}
+
+.foregroundStepLine{
+  position: absolute;
+  z-index: 11;
+  background-color: blue;
+  transform:translate(0%,-50%);
+}
+.stepPoint span{
+  color:gray;
+  text-shadow: none;
+  position: absolute;
+  z-index: 21;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+}
+.setpPoint-actived{
+  background-color: #1362B7;
+  border-color: #1362B7;
+  cursor:pointer;
+}
+.setpPoint-actived-white{
+  color: white;
+  background-color: #1362B7;
+  border-color: #1362B7;
+  cursor:pointer;
+}
+.setpPoint-actived-white.stepPoint-selectable span{
+  color: white;
+  cursor:pointer;
+}
+.setpPoint-actived.stepPoint-selectable span{
+  cursor:pointer;
+}
+.stepPoint-selectable{
+  
+  cursor:pointer;
+}
+.stepPoint-selectable span{
+  color:#333;
+  cursor:pointer;
+}
+.counter-indicator{
+  z-index: 23;
+  position: absolute;
+  text-align: center;
+  background: orangered;
+  color:white;
+  text-align: center;
+  vertical-align: middle;
+  filter: drop-shadow(0 0.2rem 0.25rem rgba(0, 0, 0, 0.5));
+}
+.event-lead-line{
+  position: absolute;
+  border-left:2px dashed #1362B7;
+  border-top:none;
+  border-bottom: none;
+  border-right: none;
+  left:50%;
+  transform:translate(-50%,0%);
+}
+.event-box{
+  position: absolute;
+  left:50%;
+  transform:translate(-50%,0%);
+  filter: drop-shadow(0 0.2rem 0.25rem rgba(0, 0, 0, 0.5));
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" href="./css/progressDiagram.css" />
+  <title>Document</title>
+  <script src="./js/jquery.js"></script>
+	<script src="./js/jquery.mobile-1.4.5.min.js"></script>
+	<script type="text/javascript" src="./elements/progressDiagram.js"></script>
+  <style>
+    .ProgressesButton-container{
+    }
+    
+  </style>
+</head>
+<body>
+  <div id="progress_diagram" ></div>
+  <div id="progress_diagram1" ></div>
+  <button id="goto">goto</button>
+  <input id="index" type="number"/>
+  <script>
+    var progresses=["立案","一审","二审",{name:"正在执行",data:["强制执行","正常执行","无需执行"]},"结案","再审","监督"]; 
+    var but=new ProgressesButton({
+                steps:progresses,
+                deadSteps:["无需执行"],
+                showLabel:true,
+                containerId:'#progress_diagram',
+                currentPosition:3,
+                fontSize:12,
+                line_size:2,
+                size:12,
+                width:240,
+                hasShadow:false,
+                isViewMode:true,
+                //verticalGap:2,
+                labelPosition:"bottom",
+                showSubSteps:false,
+                readOnly:true,
+                showCounter:false,
+                counterData:[{caseStatus:0},{caseStatus:1},{caseStatus:1},{caseStatus:3},{caseStatus:4.1},{caseStatus:4.1},{caseStatus:6},{caseStatus:2}],
+            });
+            var but1=new ProgressesButton({
+                steps:progresses,
+                deadSteps:["无需执行"],
+                showLabel:true,
+                containerId:'#progress_diagram1',
+                currentPosition:3,
+                fontSize:14,
+                line_size:2,
+                size:35,
+                width:840,
+                hasShadow:true,
+                isViewMode:true,
+                //verticalGap:2,
+                //labelPosition:"bottom",
+                showSubSteps:true,
+                readOnly:false,
+                showCounter:true,
+                counterData:[{caseStatus:0},{caseStatus:1},{caseStatus:1},{caseStatus:3},{caseStatus:4.1},{caseStatus:4.1},{caseStatus:6},{caseStatus:2}],
+            });
+            but1.setEvent([{caseStatus:0},{caseStatus:1}]);
+    $('#goto').on('click',function(e){
+      console.log($('#index').val());
+      but.MoveTo($('#index').val());
+    })
+    console.log("test",'35公司39'.replace('35公司39'.match(/\d+/)[0],''))
+    console.log("test",'35gs39'.match(/\d+(\.\d+)?/g))
+  </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+.btn-icon-green:after{
+    background-color: green;
+}
+.btn-icon-red:after{
+    background-color: #C31825;
+}
+.btn-icon-blue:after{
+    background-color: #1362B7;
+}
+.text-green{
+    color: green;
+}
+.text-red{
+    color: #C31825;
+}
+.text-blue{
+    color: #1362B7;
+}
+.text-green-background{
+    background-color: green;
+}

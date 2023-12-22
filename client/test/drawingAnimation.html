@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<head>
+
+<title>圆形展开后收缩</title>
+
+</head>
+
+<body>
+
+<canvas id="myCanvas" width="400" height="400" style="border:3px double #996633;">
+
+</canvas>
+
+<script type="text/javascript">
+
+    var r=10;
+
+    var dr=5;
+
+    var canvas=document.getElementById('myCanvas');
+
+    var ctx=canvas.getContext('2d');
+
+    var image = new Image();
+
+    image.src = 'https://graphicriver.img.customer.envatousercontent.com/files/241145957/Image%20Preview.jpg?auto=compress%2Cformat&q=80&fit=crop&crop=top&max-h=8000&max-w=590&s=959018da3045c9bba27ab3cefb461525';
+
+    image.onload=function(){
+
+        ctx.drawImage(image,0,0);
+
+     }
+
+    setInterval("draw()",100);
+
+    function draw()
+
+    {
+
+           ctx.clearRect(0,0,400,400);
+
+           ctx.save();
+
+          ctx.beginPath();
+
+          ctx.arc(200,200,r,0,Math.PI*2,true);
+
+          ctx.closePath();
+
+          ctx.fillStyle="white";
+
+          ctx.fill();
+
+           ctx.clip();
+
+          ctx.drawImage(image,0,0);
+
+           ctx.restore();
+
+           r=r+dr;
+
+           if (r>280) dr=-5;
+
+           else if (r<=0) dr=5;
+
+    }
+
+</script>
+
+</body>
+
+</html>

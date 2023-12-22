@@ -1,0 +1,138 @@
+.fadeIn {
+    -webkit-animation: fadeInDown .3s;
+    animation: fadeInDown .3s;
+}
+
+@keyframes fadeInDown {
+    0% {
+        -webkit-transform: translate3d(0, -20%, 0);
+        -webkit-transform: translate3d(0, -20%, 0);
+        transform: translate3d(0, -20%, 0);
+        transform: translate3d(0, -20%, 0);
+        opacity: 0;
+    }
+    100% {
+        -webkit-transform: none;
+        transform: none;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeInDown {
+    0% {
+        -webkit-transform: translate3d(0, -20%, 0);
+        opacity: 0;
+    }
+    100% {
+        -webkit-transform: none;
+        opacity: 1;
+    }
+}
+
+
+/*弹层动画（从下往上）*/
+
+.fadelogIn {
+    -webkit-animation: fadelogIn .4s;
+    animation: fadelogIn .4s;
+}
+
+@keyframes fadelogIn {
+    0% {
+        -webkit-transform: translate3d(0, 100%, 0);
+        -webkit-transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
+    }
+    100% {
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+@-webkit-keyframes fadelogIn {
+    0% {
+        -webkit-transform: translate3d(0, 100%, 0);
+    }
+    100% {
+        -webkit-transform: none;
+    }
+}
+
+
+/*弹层动画（从右往左）*/
+
+.fadeleftIn {
+    -webkit-animation: fadeleftIn .4s;
+    animation: fadeleftIn .4s;
+}
+
+@keyframes fadeleftIn {
+    0% {
+        -webkit-transform: translate3d(100%, 0, 0);
+        -webkit-transform: translate3d(100%, 0, 0);
+        transform: translate3d(100%, 0, 0);
+        transform: translate3d(100%, 0, 0);
+    }
+    100% {
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+@-webkit-keyframes fadeleftIn {
+    0% {
+        -webkit-transform: translate3d(100%, 0, 0);
+    }
+    100% {
+        -webkit-transform: none;
+    }
+}
+
+
+/*弹层动画（放大）*/
+
+.popIn {
+    -webkit-animation: fadeleftIn .4s;
+    animation: fadeleftIn .4s;
+    -webkit-animation-name: popIn;
+    animation-name: popIn;
+}
+
+@-webkit-keyframes popIn {
+    0% {
+        -webkit-transform: scale3d(0, 0, 0);
+        transform: scale3d(0.5, 0.5, 0.5);
+        opacity: 0;
+    }
+    50% {
+        -webkit-animation-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
+        animation-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
+    }
+    100% {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        opacity: 1;
+    }
+}
+
+@keyframes popIn {
+    0% {
+        -webkit-transform: scale3d(0, 0, 0);
+        transform: scale3d(0.5, 0.5, 0.5);
+        opacity: 0;
+    }
+    50% {
+        -webkit-animation-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
+        animation-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
+    }
+    100% {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        opacity: 1;
+    }
+}

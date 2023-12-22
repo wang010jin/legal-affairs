@@ -1,0 +1,34 @@
+.ui-m-controlgroup{
+    padding:0px;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    padding:0px;
+    margin:-8px 0px;
+    text-align: left;
+}
+.ui-m-controlgroup a{
+    text-align: left;
+}
+.ui-m-controlgroup select{
+    text-align: left;
+}
+.ui-super-listview > .ui-li-static{
+    padding:0px;
+    margin:0px;
+    border:none;
+    width:100%;
+}
+.sub-selectmenu {
+border-radius: 0;
+width:80px;
+}
+.spaceSpan::after {
+content: "\00a0"; /* Unicode character for non-breaking space */
+}
+.controlgroup-textinput{
+    padding-top:.22em;
+    padding-bottom:.22em;
+}
+.row-controlgroup{
+    margin:2px 0px;
+}
